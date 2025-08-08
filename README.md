@@ -13,3 +13,13 @@ https://www.theodinproject.com/lessons/javascript-factory-functions-and-the-modu
 - Understand the module pattern and IIFEs (Immediately Invoked Function Expressions)
 - Leverage encapsulation and namespacing to keep code tidy and collision free. 
 
+--- Project Start ---
+
+1. Set up git
+2. Setting up display
+    - html: providing a container to hold the board
+    - JS: dynamically rendering and updating the board cells based on state
+        - dom manipulation event-listeners
+    - Initialize empty game board (array of 9 nulls)
+    - render that board as buttons of divs inside #gameboard
+    - some css to make it look like a grid
