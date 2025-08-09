@@ -23,3 +23,6 @@ https://www.theodinproject.com/lessons/javascript-factory-functions-and-the-modu
     - Initialize empty game board (array of 9 nulls)
     - render that board as buttons of divs inside #gameboard
     - some css to make it look like a grid
+- implement a visual test of displaying alternativ X O values on the board
+    - Implement the restart button functionality
+    - centered it
