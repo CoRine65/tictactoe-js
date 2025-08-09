@@ -1,57 +1,101 @@
-// GameBoard Module: IFFE: calls itself right at the end
-const GameBoard = ( function (){
-// this encapsulates logic
-    const board = ['', '', '', '', '', '', '', '', '']
+const GameBoard = (function () {
+    const board = ['', '', '', '', '', '', '', '', ''];
     const boardContainer = document.getElementById('gameboard');
-    let currentPlayer = 'X'; //tracking current player
     const restartBtn = document.getElementById('restartBtn');
+    const winningCombinations = [
+        [0,1,2], [3,4,5], [6,7,8],
+        [0,3,6], [1,4,7], [2,5,8],
+        [0,4,8], [2,4,6]
+    ];
 
-    //displaying the board:
-    function renderBoard (){
-        boardContainer.innerHTML = '' //clears the board and we start fresh
+    let gameOver = false;
+    let gameActive = false;
 
-        board.forEach((value, index) =>{ //looping through each ceel in the board
-            const cell = document.createElement("div"); //this creates the individual cell?
+    let player1 = { name: "Player 1", marker: "X" };
+    let player2 = { name: "Player 2", marker: "O" };
+    let currentPlayer = player1;
+
+    const gameMessage = document.getElementById("game-message");
+    const startButton = document.getElementById("start-game");
+
+    startButton.addEventListener("click", () => {
+        const p1Name = document.getElementById("player1-name").value.trim();
+        const p2Name = document.getElementById("player2-name").value.trim();
+
+        player1.name = p1Name || "Player 1";
+        player2.name = p2Name || "Player 2";
+
+        resetBoard();
+        currentPlayer = player1;
+        gameOver = false;
+        gameActive = true;
+        gameMessage.textContent = `${currentPlayer.name}'s turn (${currentPlayer.marker})`;
+    });
+
+    function renderBoard() {
+        boardContainer.innerHTML = '';
+
+        board.forEach((value, index) => {
+            const cell = document.createElement("div");
             cell.classList.add('cell');
             cell.textContent = value;
-            //adding an data-index to indetify the cell later
-            cell.dataset.index = index
+            cell.dataset.index = index;
 
             cell.classList.remove('x', 'o');
             if (value === 'X') cell.classList.add('x');
             if (value === 'O') cell.classList.add('o');
 
-            //add event listener here
             cell.addEventListener('click', () => {
-                //only allowing the move if the cell is empty
-                if (board[index] === ''){
-                    board[index] = currentPlayer; //updating 
+                if (!gameOver && gameActive && board[index] === '') {
+                    board[index] = currentPlayer.marker;
+
+                    if (checkWin(currentPlayer.marker)) {
+                        gameOver = true;
+                        gameMessage.textContent = `${currentPlayer.name} wins!`;
+                    } else if (checkDraw()) {
+                        gameOver = true;
+                        gameMessage.textContent = `It's a draw!`;
+                    } else {
+                        switchPlayer();
+                        gameMessage.textContent = `${currentPlayer.name}'s turn (${currentPlayer.marker})`;
+                    }
                     renderBoard();
-                    switchPlayer();
                 }
             });
 
-            boardContainer.appendChild(cell)
+            boardContainer.appendChild(cell);
         });
     }
 
-    function switchPlayer(){
-        currentPlayer = currentPlayer === 'X' ? 'O': 'X';
+    function switchPlayer() {
+        currentPlayer = currentPlayer === player1 ? player2 : player1;
     }
 
     restartBtn.addEventListener('click', () => {
-        //reset board array
-        for (let i = 0; i < board.length; i++){
-            board[i] = '';
-        }
-        currentPlayer = 'X';
-        renderBoard();
+        resetBoard();
+        currentPlayer = player1;
+        gameOver = false;
+        gameActive = true;
+        gameMessage.textContent = `${currentPlayer.name}'s turn (${currentPlayer.marker})`;
     });
 
-    return {
-        renderBoard,
-    };
+    function resetBoard() {
+        for (let i = 0; i < board.length; i++) {
+            board[i] = '';
+        }
+        renderBoard();
+    }
+
+    function checkWin(player) {
+        return winningCombinations.some(combo => {
+            return combo.every(index => board[index] === player);
+        });
+    }
+
+    function checkDraw() {
+        return board.every(cell => cell !== '');
+    }
+
+    return { renderBoard };
 })();
 GameBoard.renderBoard();
-
-

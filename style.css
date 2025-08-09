@@ -61,3 +61,34 @@ body {
 h1{
     color: rgb(98, 120, 188);
 }
+
+  #player-setup {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+#player-setup input {
+  padding: 12px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin: 15px;
+  
+}
+
+#start-game {
+  padding: 5px 15px;
+  border: none;
+  background-color: #4CAF50;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#game-message {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 15px;
+  font-size: 1.2em;
+}

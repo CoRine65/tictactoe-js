@@ -26,3 +26,6 @@ https://www.theodinproject.com/lessons/javascript-factory-functions-and-the-modu
 - implement a visual test of displaying alternativ X O values on the board
     - Implement the restart button functionality
     - centered it
+3. Set game logic and set game play
+4. fixed up script
+    - added player names and turns, a win display
